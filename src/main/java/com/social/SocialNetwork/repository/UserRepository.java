@@ -8,6 +8,4 @@ import com.social.SocialNetwork.domain.User;
 @Repository
 public interface UserRepository extends MongoRepository<User, String> {
 
-
-
 }

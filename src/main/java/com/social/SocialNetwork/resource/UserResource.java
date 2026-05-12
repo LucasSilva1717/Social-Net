@@ -17,6 +17,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.social.SocialNetwork.domain.User;
 import com.social.SocialNetwork.dto.UserDTO;
 import com.social.SocialNetwork.services.UserService;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 @RequestMapping(value = "/users")
@@ -49,6 +51,14 @@ public class UserResource {
     public ResponseEntity<UserDTO> insert(@RequestBody UserDTO objDTO) {
         User obj = service.fromDTO(objDTO);
         obj = service.insert(obj);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+        return ResponseEntity.created(uri).build();
+    }
+
+    @RequestMapping(value = "/{id}", method=RequestMethod.PUT)
+    public ResponseEntity<UserDTO> update(@RequestBody UserDTO objDTO, @PathVariable String id) {
+        User obj = service.fromDTO(objDTO);
+        obj = service.update(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
         return ResponseEntity.created(uri).build();
     }
