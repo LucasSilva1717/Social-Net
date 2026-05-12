@@ -1,5 +1,9 @@
 package com.social.SocialNetwork.services;
 
-public class UserService {
+import org.springframework.data.mongodb.repository.MongoRepository;
+
+import com.social.SocialNetwork.entities.User;
+
+public interface UserService extends MongoRepository<User, String> {
 
 }
