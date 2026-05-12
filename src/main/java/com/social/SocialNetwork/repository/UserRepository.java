@@ -1,10 +1,13 @@
 package com.social.SocialNetwork.repository;
 
+import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
-@Repository
-public class UserRepository {
+import com.social.SocialNetwork.domain.User;
 
-    
+@Repository
+public interface UserRepository extends MongoRepository<User, String> {
+
+
 
 }

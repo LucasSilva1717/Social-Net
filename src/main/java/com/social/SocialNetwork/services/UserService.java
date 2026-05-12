@@ -1,9 +1,21 @@
 package com.social.SocialNetwork.services;
 
-import org.springframework.data.mongodb.repository.MongoRepository;
+import java.util.List;
 
-import com.social.SocialNetwork.entities.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-public interface UserService extends MongoRepository<User, String> {
+import com.social.SocialNetwork.domain.User;
+import com.social.SocialNetwork.repository.UserRepository;
 
+@Service
+public class UserService {
+
+    @Autowired
+    private UserRepository repo;
+
+    public List<User> findAll(){
+        return repo.findAll();
+        
+    }
 }
