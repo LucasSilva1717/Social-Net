@@ -1,88 +1,102 @@
-📱 Social-Net - Backend API
-Social-Net is a robust API developed with Java and Spring Boot, designed to simulate the core operations of a social media platform. The project focuses on demonstrating mastery in scalable architectures, data security, and complex entity relationships.
+# 📱 Social-Net - Java & Spring Boot (BACK-END)
+
+This project demonstrates the implementation of a scalable social media infrastructure using Java and the Spring Ecosystem. The primary objective is to manage complex data relationships and ensure secure, high-performance interactions between users.
 
 ---
 
-🎯 Key Features
-1. User & Profile Management
-Authentication: Secure login system using Spring Security (JWT recommended).
+## 🛠️ Tech Stack & Tools
 
-Profiles: Create, update, and view profiles with support for biographies and profile pictures.
-
-Social Graph: Implementation of self-referencing relationships (users following other users).
-
-2. Posts & Interactions
-News Feed: Timeline of posts generated based on the user's connections.
-
-Content Creation: Text and media support for posts.
-
-Reactions & Comments: Real-time interaction system for user publications.
-
-3. Architecture & Persistence
-ORM: Leveraging Spring Data JPA for data layer abstraction.
-
-Relationships: Implementation of complex cardinalities (ManyToMany for followers/friends and OneToMany for posts/comments).
-
-Validations: Usage of Bean Validation (Hibernate Validator) to ensure input data integrity.
+* **Backend Core:** Java & Spring Boot
+* **Security & Data:** Spring Security & Bean Validation (JSR 380)
+* **Persistence & Databases:** Spring Data JPA (PostgreSQL) & Spring Data MongoDB
+* **API Testing & Environment:** Postman & VS Code
 
 ---
 
-📐 Data Modeling
-The system utilizes PostgreSQL to ensure data consistency through the following relational schema:
+## 🎯 Computational Features
 
-Snippet de código
-erDiagram
-    USER ||--o{ POST : writes
-    USER ||--o{ COMMENT : composes
-    USER ||--o{ USER : follows
-    POST ||--o{ COMMENT : contains
-    POST ||--o{ LIKE : receives
+### 1. Social Graph & Relationships
+* **Self-Referencing Logic:** Implementation of follower/following dynamics using self-referencing entities.
+* **Complex Cardinality:** Robust handling of `ManyToMany` and `OneToMany` relationships for posts, likes, and comments.
+* **Integrity:** Automated cascading and orphan removal to maintain database health.
+
+### 2. Security & Data Validation
+* **Spring Security:** Centralized authentication and authorization layers.
+* **Input Sanitization:** Use of Bean Validation (JSR 380) to enforce data constraints and prevent malformed persistence.
+* **State Management:** Strict control over entity states via Hibernate/JPA to avoid side effects in concurrent environments.
+
+### 3. Architecture
+* **Layered Design:** Clear separation of concerns between Controllers, Services, and Repositories.
+* **Persistence:** Optimized SQL generation through Spring Data JPA for PostgreSQL.
+
+## 📐 Database Architecture
+
+The system leverages PostgreSQL to enforce social constraints directly at the engine level:
+
+```sql
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    bio TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE followers (
+    follower_id INT REFERENCES users(id) ON DELETE CASCADE,
+    following_id INT REFERENCES users(id) ON DELETE CASCADE,
+    PRIMARY KEY (follower_id, following_id)
+);
+```
+---
+
+## 💻 System Logical Flow
+
+The diagram below illustrates the backend behavior when a user interacts with a post:
+
+```mermaid
+graph TD
+    A[User Interaction] --> B[Spring Security Filter]
+    B -->|Authorized| C[Service Layer Validation]
+    B -->|Unauthorized| G[403 Forbidden]
+    C -->|Valid| D[Transactional Update]
+    C -->|Invalid| H[Business Exception]
+    D -->|Success| E[JPA Commit to DB]
+    E --> F[Return Response Entity]
+```
 
 ---
 
-🛠️ Technology Stack
-Language: Java 17+
+## 🚀 How to Run the Project
 
-Framework: Spring Boot 3.x
-
-Security: Spring Security
-
-Database: PostgreSQL / H2 (for testing)
-
-Documentation: Swagger/OpenAPI
-
-Build Tool: Maven
-
----
-
-🚀 Getting Started
-1. Clone the Repository
-Bash
-git clone https://github.com/LucasSilva1717/Social-Net.git
+### 1. Clone the Repository
+```bash
+git clone github.com
 cd Social-Net
-2. Database Configuration
-Adjust the credentials in the src/main/resources/application.properties file:
+```
 
----
+### 2. Configure the Database
+Access the `src/main/resources/application.properties` file and insert your local PostgreSQL credentials:
 
-Properties
-spring.datasource.url=jdbc:postgresql://localhost:5432/social_net_db
+```properties
+spring.datasource.url=jdbc:postgresql://localhost:5432/your_database
 spring.datasource.username=your_username
 spring.datasource.password=your_password
 spring.jpa.hibernate.ddl-auto=update
-3. Run the Application
-Bash
+```
+
+### 3. Compile and Run
+Run the application using Maven:
+```bash
 mvn spring-boot:run
+```
+
+## 🤝 Contributing
+
+Ideas for the evolution of this repository:
+* Implementation of JWT (JSON Web Tokens) for stateless authentication.
+* Integration with Redis for caching the news feed.
+* Asynchronous media processing using Spring Events.
 
 ---
-
-🤝 Roadmap (Future Updates)
-[ ] Implementation of WebSockets for real-time notifications.
-
-[ ] Integration with Amazon S3 for profile image storage.
-
-[ ] Full test coverage using JUnit 5 and Mockito.
-
-[ ] Automated deployment via Docker and GitHub Actions.
-
-Developed with ☕ by Lucas Silva
+Developed with ☕ by [Lucas Silva](https://github.com)
