@@ -66,7 +66,16 @@ graph TD
 ```
 
 ---
+## 📑 API REST Endpoint Patterns
 
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `POST` | `/api/users` | Register a new user |
+| `GET` | `/api/users/{id}` | Retrieve user profile |
+| `POST` | `/api/users/{id}/follow` | Follow a user |
+| `DELETE` | `/api/users/{id}/follow` | Unfollow a user |
+
+---
 ## 🚀 How to Run the Project
 
 ### 1. Clone the Repository
