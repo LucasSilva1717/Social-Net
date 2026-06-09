@@ -1,4 +1,4 @@
-# 📱 Social-Net - Java & Spring Boot (BACK-END)
+# 📱 Social-Net - API REST com Java & Spring Boot (BACK-END)
 
 This project demonstrates the implementation of a scalable social media infrastructure using Java and the Spring Ecosystem. The primary objective is to manage complex data relationships and ensure secure, high-performance interactions between users.
 
